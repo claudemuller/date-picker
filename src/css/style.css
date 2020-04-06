@@ -1,0 +1,18 @@
+.date-picker-popup {
+    display: none;
+    padding: 10px;
+    border: 1px #ddd solid;
+}
+
+.date-picker-topbar {
+    display: flex;
+}
+.date-picker-topbar div {
+    flex-grow: 1;
+    display: inline-block;
+    text-align: center;
+}
+
+.year-selector {
+    cursor: pointer;
+}
