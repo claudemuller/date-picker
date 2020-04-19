@@ -1,4 +1,5 @@
 .date-picker-popup {
+    position: absolute;
     display: none;
     padding: 10px;
     border: 1px #ddd solid;
@@ -15,4 +16,8 @@
 
 .year-selector {
     cursor: pointer;
+}
+
+.date-picker-day {
+    border: 1px black solid;
 }

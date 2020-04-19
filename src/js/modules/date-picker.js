@@ -4,7 +4,8 @@
  * @param string id The tag id to use when attaching the date picker behaviour to
  */
 export function DatePicker(id) {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+  const months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'],
+    weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
     lowYear = 2018,
     highYear = 2022,
     calendars = {},
@@ -63,25 +64,52 @@ export function DatePicker(id) {
 
   function _renderCalendars() {
     const years = document.createElement('div');
-    years.setAttribute('class', 'date-picker-year');
+    years.setAttribute('class', 'date-picker-years');
 
-    for (let y in calendars) {
+    for (const y in calendars) {
       const year = document.createElement('div');
       year.setAttribute('class', 'date-picker-year');
 
-      for (let m in calendars[y]) {
+      for (const m in calendars[y]) {
+        const monthHeader = document.createElement('div');
+        monthHeader.setAttribute('class', 'align-center');
+        monthHeader.innerHTML = m;
+        year.appendChild(monthHeader);
+
         const month = document.createElement('table');
         month.setAttribute('class', 'date-picker-month');
 
-        const week = month.insertRow();
+        let week = month.insertRow();
         week.setAttribute('class', 'date-picker-week');
 
-        for (let i = 0; i < 7; i++) {
-          //for (let d in calendars[y][m]) {
-            const day = week.insertCell();
-            day.setAttribute('class', 'date-picker-day');
-            day.innerHTML = calendars[y][m][i].getDate();
-          //}
+        for (const weekDay in weekDays) {
+          let wd = week.insertCell();
+          wd.outerHTML = `<th>${weekDays[weekDay]}</th>`;
+        }
+
+        let dayOfTheWeek = 0;
+
+        for (let theDay in calendars[y][m]) {
+          if (theDay % 7 === 0) {
+            week = month.insertRow();
+            week.setAttribute('class', 'date-picker-week');
+            dayOfTheWeek = 0;
+          }
+
+          const day = week.insertCell();
+          day.setAttribute('class', 'date-picker-day');
+
+          const dotw = new Date(y, months.indexOf(m), theDay).getDay();
+
+          console.log(dotw, dayOfTheWeek);
+
+          if (dotw === dayOfTheWeek) {
+            day.innerHTML = parseInt(theDay) + 1;
+          }
+
+          dayOfTheWeek++;
+
+          //if (dayOfTheWeek == 7) break;
         }
 
         year.appendChild(month);
